@@ -9,18 +9,13 @@ import (
 	"github.com/tealeg/xlsx"
 )
 
-var logText string
-var logArea *ui.Label
-
 func main() {
-	logText = ""
 
 	err := ui.Main(func() {
 		button := ui.NewButton("选择需要转化的文件")
-		logArea = ui.NewLabel("")
+
 		box := ui.NewVerticalBox()
 		box.Append(button, false)
-		box.Append(logArea, false)
 		window := ui.NewWindow("文字表转换工具 XLS --> JSON对象", 400, 200, false)
 		window.SetChild(box)
 		button.OnClicked(func(*ui.Button) {
@@ -42,17 +37,15 @@ func main() {
 	}
 }
 
-func appendLog(str string) error {
-	logText += str + "\r\n"
-	logArea.SetText(logText)
-	return nil
+func appendLog(a ...interface{}) {
+	fmt.Println(a)
 }
 
 func processXLSX(_filePath string) error {
 	appendLog("选择了文件：" + _filePath)
 	excelFileName := _filePath // "/Users/mapzchen/Documents/golangEx/src/github.com/Mapz/guiTest/test_xls_text.xlsx"
 	dir, _ := filepath.Split(_filePath)
-	fmt.Println("路径：" + dir)
+	appendLog("路径：" + dir)
 
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {
@@ -72,7 +65,7 @@ func processXLSX(_filePath string) error {
 		languageMap[colIndex] = _str
 	}
 
-	fmt.Println(languageMap)
+	appendLog(languageMap)
 
 	//创建导出文件
 	colFileMap := make(map[int]*os.File)
@@ -84,7 +77,7 @@ func processXLSX(_filePath string) error {
 		defer fout.Close()
 		defer appendLog("完成导出:" + _path)
 		if err != nil {
-			fmt.Println(userFile, err)
+			appendLog(userFile, err)
 			return err
 		}
 		fout.WriteString("module.exports = {\r\n")
