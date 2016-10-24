@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/andlabs/ui"
 	"github.com/tealeg/xlsx"
@@ -48,10 +48,10 @@ func appendLog(str string) error {
 	return nil
 }
 
-func processXLSX(filePath string) error {
-	appendLog("选择了文件：" + filePath)
-	excelFileName := filePath // "/Users/mapzchen/Documents/golangEx/src/github.com/Mapz/guiTest/test_xls_text.xlsx"
-	dir, _ := path.Split(filePath)
+func processXLSX(_filePath string) error {
+	appendLog("选择了文件：" + _filePath)
+	excelFileName := _filePath // "/Users/mapzchen/Documents/golangEx/src/github.com/Mapz/guiTest/test_xls_text.xlsx"
+	dir, _ := filepath.Split(_filePath)
 	fmt.Println("路径：" + dir)
 
 	xlFile, err := xlsx.OpenFile(excelFileName)
