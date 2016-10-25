@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/andlabs/ui"
 	"github.com/tealeg/xlsx"
@@ -96,6 +97,9 @@ func processXLSX(_filePath string) error {
 			if _err != nil {
 				return _err
 			}
+			_str = strings.Replace(_str, "\r\n", "\\n", -1)
+			_str = strings.Replace(_str, "\n", "\\n", -1)
+			_str = strings.Replace(_str, "\r", "\\n", -1)
 			colFileMap[col].WriteString("\t\"" + _id + `":"` + _str + "\",\r\n")
 			fmt.Printf("%s    %s\n", _err, _str)
 		}
